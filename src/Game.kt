@@ -51,6 +51,7 @@ class Game(var gridSize: Int) {
                 gridFilled = false
             }
         }
+
         if (gridFilled) {
             finished = true
             draw = true
@@ -66,14 +67,23 @@ class Game(var gridSize: Int) {
             }
         }
         for (i in 0..1) {
-            if (i == 0) {
-                for (j in 0 until gridSize) {
-                    diagonals[i][j] = grid[(gridSize + 1) * j]
-                }
-            } else {
-                for (j in 0 until gridSize) {
-                    diagonals[i][j] = grid[(gridSize - 1) * (j + 1)]
-                }
+//            if (i == 0) {
+//                for (j in 0 until gridSize) {
+//                    diagonals[i][j] = grid[(gridSize + 1) * j]
+//                }
+//            } else {
+//                for (j in 0 until gridSize) {
+//                    diagonals[i][j] = grid[(gridSize - 1) * (j + 1)]
+//                }
+//            }
+    // replaced if statement by when
+            when(i){
+             0-> for (j in 0 until gridSize)
+                 diagonals[i][j] = grid[(gridSize + 1) * j]
+
+             else-> for (j in 0 until gridSize)
+                   diagonals[i][j] = grid[(gridSize - 1) * (j + 1)]
+
             }
         }
 

@@ -12,7 +12,7 @@ object TicTacToe {
     fun main(args: Array<String>) {
         val minimumGameSize = 1
         val maximumGameSize = 26
-
+//        var str:String?=null
         //When program starts, user is met with a welcome message
         println("\n\tWelcome to this wonderful and lovely game of TicTacToe.")
         println("\n\tPlease select your Game mode.")
@@ -24,8 +24,7 @@ object TicTacToe {
         gameMode(user_input) //gameMode() is defines below
         println("\n\tHow large of a grid would you like to use? ")
         user_input = getInput("\n\tPlease enter an integer between $minimumGameSize and $maximumGameSize: ")
-
-        //validate user unput for game size
+        //validate user input for game size
         valid_input = false
         while (!valid_input) {
             if (user_input!!.isNotEmpty() && user_input!!.substring(0, 1)
@@ -51,45 +50,42 @@ object TicTacToe {
         val players = arrayOfNulls<Player>(2)
 
         //set players to AI or Human depending on game mode
-        if (gameMode == 1) {
-            players[0] = Player("Human")
-            players[1] = Player("AI")
-        } else {
-            players[0] = Player("AI")
-            players[1] = Player("AI")
+        // change if statement by when
+        when(gameMode){
+             1-> { players[0] = Player("Human")
+                  players[1] = Player("AI")
+                }
+            else-> { players[0] = Player("AI")
+                   players[1] = Player("AI")
+                   }
         }
-
         //Draw the blank board initially to show user which columns and rows to choose from
         println(game!!.output())
 
         //until the game is over, go back and forth between players in players array
         //output the game map to the screen after each move
         while (!game!!.finished) {
-            for (player in players) {
-                player!!.go()
+//            for (player in players) {
+            // change for loop with forEach
+            players.forEach {
+                it!!.go()
                 println(
-                    """
-                        
-                        ${game!!.output()}
-                        """.trimIndent()
-                )
+                    """  ${game!!.output()} """.trimIndent())
+                }
                 count += 1
                 if (game!!.finished) {
                     break
                 }
-            }
         }
-
         //output an ending message to the game
-        if (game!!.draw) {
-            println("\n\tCat's game!")
-        } else {
-
-            //count variable from earlier is used to decide who went last and therefore won.
-            if (count % 2 == 1) {
-                println("\n\tX's win!")
-            } else {
-                println("\n\tO's win!")
+        //replace if statement by when
+        when(game!!.draw){
+            true-> println("\n\tCat's game!")
+            else->{
+                when(count % 2){
+                    1->println("\n\tX's win!")
+                    else-> println("\n\tO's win!")
+                }
             }
         }
     }
@@ -99,14 +95,14 @@ object TicTacToe {
         var user_input = user_input
         valid_input = false
         while (!valid_input) {
-            if (user_input!!.length == 1 && user_input.substring(0, 1).matches("[1-2]".toRegex())) {
+
+              if (user_input=="1" || user_input=="2"){
                 valid_input = true
             } else {
-                user_input = getInput("\n\tYou must enter '1' or '2' for the game mode: ")
+                  print("\n\tYou must enter '1' or '2' for the game mode: ")
+                  user_input= readLine()
             }
-        }
-
-        //Set user input to gameMode for use later
+        }  //Set user input to gameMode for use later
         gameMode = user_input!!.toInt()
     }
 }
